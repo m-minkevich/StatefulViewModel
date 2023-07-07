@@ -119,7 +119,14 @@ private extension StatefulViewModel {
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] (currentState, newAction) in
-                    self?.reduce(action: newAction)
+                    guard let self = self else { return }
+                    
+                    let cancellable = self.reduce(action: newAction)
+                        .sink(receiveCompletion: { _ in }) { [weak self] newAction in
+                            self?.actionPublisher.send(newAction)
+                        }
+                    
+                    self.actionCancellables.insert(cancellable)
                 }
             )
             .store(in: &actionCancellables)
