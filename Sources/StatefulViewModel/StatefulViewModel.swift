@@ -103,11 +103,10 @@ private extension StatefulViewModel {
                 guard let self = self else {
                     return Fail(error: CustomError.memoryLeak).eraseToAnyPublisher()
                 }
-                
-                return self.reduce(action: action)
-                    .map { newAction in
-                        (self.currentState, newAction)
-                    }
+
+                let viewState = self.currentState
+                return Just((viewState, action))
+                    .setFailureType(to: Error.self)
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
