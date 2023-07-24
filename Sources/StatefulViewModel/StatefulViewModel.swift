@@ -1,15 +1,13 @@
 //
-//  File.swift
-//  
+// StatefulViewModel.swift
 //
-//  Created by Matt Minkevich on 05/07/2023.
+// StatefulViewModel Package
 //
 
 import Combine
 import Foundation
 
 open class StatefulViewModel<State: Equatable, Action: Equatable>: BaseStatefulViewModel {
-    
     // MARK: Public Properties
 
     /// The published stream of view state updates.
@@ -42,7 +40,7 @@ open class StatefulViewModel<State: Equatable, Action: Equatable>: BaseStatefulV
     ///
     /// For more information about subscribing to state updates, refer to the documentation of the `state` property.
     @Published public var currentState: State
-    
+
     // MARK: Private Properties
 
     /// A subject that receives and emits actions.
@@ -50,7 +48,7 @@ open class StatefulViewModel<State: Equatable, Action: Equatable>: BaseStatefulV
 
     /// A set of cancellables to manage the action subscriptions.
     private var actionCancellables = Set<AnyCancellable>()
-    
+
     // MARK: Initializer
 
     /// Initializes the view model with the initial state.
@@ -61,7 +59,7 @@ open class StatefulViewModel<State: Equatable, Action: Equatable>: BaseStatefulV
         self.currentState = currentState
         observeActions()
     }
-    
+
     // MARK: Public Methods
 
     /// Sends an action to the view model, triggering state updates.
@@ -86,7 +84,7 @@ open class StatefulViewModel<State: Equatable, Action: Equatable>: BaseStatefulV
     /// - Parameters:
     ///   - action: The action to be handled.
     /// - Returns: A publisher emitting a new action if needed.
-    open func reduce(action: Action) -> AnyPublisher<Action, Error> {
+    open func reduce(action _: Action) -> AnyPublisher<Action, Error> {
         fatalError("handle(action:) must be overridden in the subclass")
     }
 }
@@ -94,7 +92,6 @@ open class StatefulViewModel<State: Equatable, Action: Equatable>: BaseStatefulV
 // MARK: Implementation Details
 
 private extension StatefulViewModel {
-
     /// A publisher that combines the action subject and state to handle actions.
     var actionHandler: AnyPublisher<(State, Action), Error> {
         actionPublisher
@@ -111,24 +108,23 @@ private extension StatefulViewModel {
             }
             .eraseToAnyPublisher()
     }
-    
+
     /// Observes the actions and triggers the action handling logic.
     func observeActions() {
         actionHandler
             .sink(
                 receiveCompletion: { _ in },
-                receiveValue: { [weak self] (currentState, newAction) in
+                receiveValue: { [weak self] _, newAction in
                     guard let self = self else { return }
-                    
+
                     let cancellable = self.reduce(action: newAction)
                         .sink(receiveCompletion: { _ in }) { [weak self] newAction in
                             self?.actionPublisher.send(newAction)
                         }
-                    
+
                     self.actionCancellables.insert(cancellable)
                 }
             )
             .store(in: &actionCancellables)
     }
 }
-

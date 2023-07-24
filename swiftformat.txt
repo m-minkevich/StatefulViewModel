@@ -5,12 +5,14 @@
 # Configuration. Configure first two format options (swiftversion, header) if needed.
 
 # Excluded files/directories. Uncomment the next line to define excluded files/directories in your project.
---exclude Pods,Carthage,fastlane
+--exclude Pods,Carthage,fastlane,"**/*.generated.swift"
 
 # Rules & options documentation: https://github.com/nicklockwood/SwiftFormat/blob/master/Rules.md
 
+# Supported version of SwiftFormat: 0.46.x
+
 # Format Options
---header "\n {file}\nStatefulViewModel Package\n"
+--header "\n {file}\n\nStatefulViewModel Package\n"
 --swiftversion 5.4
 --allman false
 --binarygrouping none

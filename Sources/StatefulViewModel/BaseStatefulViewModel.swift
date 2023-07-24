@@ -1,9 +1,14 @@
+//
+// BaseStatefulViewModel.swift
+//
+// StatefulViewModel Package
+//
+
 import Combine
 import Foundation
 
 /// A base view model protocol that manages the state and actions for a view.
 public protocol BaseStatefulViewModel: ObservableObject {
-
     /// The type representing the state of the view model.
     associatedtype State: Equatable
 

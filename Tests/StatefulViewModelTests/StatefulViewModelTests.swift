@@ -1,6 +1,12 @@
-import XCTest
+//
+// StatefulViewModelTests.swift
+//
+// StatefulViewModel Package
+//
+
 @testable import StatefulViewModel
 import Combine
+import XCTest
 
 final class StatefulViewModelTests: XCTestCase {
 
