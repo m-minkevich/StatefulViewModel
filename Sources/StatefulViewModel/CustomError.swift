@@ -16,6 +16,6 @@ enum CustomError: Error {
     /// Indicates bad memory dealloaction.
     case memoryLeak
 
-    /// Indicares an invalid reducer.
+    /// Indicates an invalid reducer.
     case invalidReducer
 }
