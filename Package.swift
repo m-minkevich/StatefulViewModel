@@ -6,13 +6,14 @@ import PackageDescription
 let package = Package(
     name: "StatefulViewModel",
     platforms: [
-        .iOS(.v14)
+        .iOS(.v14),
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "StatefulViewModel",
-            targets: ["StatefulViewModel"]),
+            targets: ["StatefulViewModel"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -23,9 +24,11 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "StatefulViewModel",
-            dependencies: []),
+            dependencies: []
+        ),
         .testTarget(
             name: "StatefulViewModelTests",
-            dependencies: ["StatefulViewModel"]),
+            dependencies: ["StatefulViewModel"]
+        ),
     ]
 )
