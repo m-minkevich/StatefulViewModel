@@ -95,7 +95,6 @@ private extension StatefulViewModel {
     /// A publisher that combines the action subject and state to handle actions.
     var actionHandler: AnyPublisher<(State, Action), Error> {
         actionPublisher
-//            .removeDuplicates()
             .flatMap { [weak self] action -> AnyPublisher<(State, Action), Error> in
                 guard let self = self else {
                     return Fail(error: CustomError.memoryLeak).eraseToAnyPublisher()
